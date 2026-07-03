@@ -1,0 +1,53 @@
+export interface NamedAPIResource {
+  name: string;
+  url: string;
+}
+
+export interface PokemonListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: NamedAPIResource[];
+}
+
+export interface PokemonSprites {
+  front_default: string | null;
+  other: {
+    'official-artwork': {
+      front_default: string | null;
+    };
+  };
+  versions: {
+    'generation-v': {
+      'black-white': {
+        front_default: string | null;
+      };
+    };
+  };
+}
+
+export interface PokemonStat {
+  base_stat: number;
+  stat: NamedAPIResource;
+}
+
+export interface PokemonType {
+  slot: number;
+  type: NamedAPIResource;
+}
+
+export interface PokemonAbility {
+  ability: NamedAPIResource;
+  is_hidden: boolean;
+}
+
+export interface Pokemon {
+  id: number;
+  name: string;
+  height: number;
+  weight: number;
+  sprites: PokemonSprites;
+  types: PokemonType[];
+  stats: PokemonStat[];
+  abilities: PokemonAbility[];
+}
