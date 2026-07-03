@@ -75,4 +75,4 @@ src/
 
 ## Deploy
 
-[preencher após o deploy, ex.: https://pokedex-seu-usuario.vercel.app]
+https://apipokemon-plum.vercel.app/
