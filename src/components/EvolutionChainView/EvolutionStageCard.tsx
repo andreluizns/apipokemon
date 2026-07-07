@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchPokemonByNameOrId } from '../../api/pokemon';
-import { TYPE_COLORS } from '../../constants/typeColors';
-import { TYPE_LABELS_PT } from '../../constants/typeLabels';
+import { TYPE_BADGE_BACKGROUND_COLORS } from '../../constants/typeCardBackgroundColors';
+import { TYPE_DETAIL_BACKGROUNDS } from '../../constants/typeDetailBackgrounds';
+import { TypeBadge } from '../TypeBadge/TypeBadge';
 import type { PokemonTypeName } from '../../constants/types';
 import { capitalize, formatPokedexNumber } from '../../utils/formatters';
 import type { Pokemon } from '../../types/pokemon';
@@ -26,7 +27,8 @@ export function EvolutionStageCard({ speciesId, speciesName }: EvolutionStageCar
   }, [speciesId]);
 
   const primaryType = pokemon?.types[0]?.type.name as PokemonTypeName | undefined;
-  const backgroundColor = (primaryType && TYPE_COLORS[primaryType]) || '#A8A878';
+  const backgroundColor = (primaryType && TYPE_BADGE_BACKGROUND_COLORS[primaryType]) || '#A8A878';
+  const watermark = primaryType && TYPE_DETAIL_BACKGROUNDS[primaryType];
   const sprite = pokemon?.sprites.versions['generation-v']['black-white'].front_default ?? pokemon?.sprites.front_default ?? '';
 
   return (
@@ -35,10 +37,11 @@ export function EvolutionStageCard({ speciesId, speciesName }: EvolutionStageCar
       className="flex items-center gap-3 rounded-2xl border border-neutral-200 p-3"
     >
       <div
-        className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full"
+        className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full"
         style={{ backgroundColor }}
       >
-        {sprite && <img src={sprite} alt={speciesName} className="h-10 w-10 object-contain" />}
+        {watermark && <img src={watermark} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />}
+        {sprite && <img src={sprite} alt={speciesName} className="relative h-10 w-10 object-contain" />}
       </div>
       <div>
         <p className="font-semibold">{capitalize(speciesName)}</p>
@@ -46,13 +49,7 @@ export function EvolutionStageCard({ speciesId, speciesName }: EvolutionStageCar
         {pokemon && (
           <div className="mt-1 flex gap-1">
             {pokemon.types.map((entry) => (
-              <span
-                key={entry.type.name}
-                className="rounded-full px-2 py-0.5 text-[10px] font-medium text-white"
-                style={{ backgroundColor: TYPE_COLORS[entry.type.name as PokemonTypeName] }}
-              >
-                {TYPE_LABELS_PT[entry.type.name as PokemonTypeName] ?? capitalize(entry.type.name)}
-              </span>
+              <TypeBadge key={entry.type.name} type={entry.type.name as PokemonTypeName} />
             ))}
           </div>
         )}

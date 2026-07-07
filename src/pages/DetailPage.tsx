@@ -4,16 +4,15 @@ import { useEvolutionChain } from '../hooks/useEvolutionChain';
 import { useWeaknesses } from '../hooks/useWeaknesses';
 import { StatBar } from '../components/StatBar/StatBar';
 import { EvolutionChainView } from '../components/EvolutionChainView/EvolutionChainView';
+import { TypeBadge } from '../components/TypeBadge/TypeBadge';
+import { FavoriteHeartIcon } from '../components/icons/FavoriteHeartIcon';
 import { useFavoritesStore } from '../store/favoritesStore';
-import { TYPE_LABELS_PT } from '../constants/typeLabels';
-import { TYPE_COLORS } from '../constants/typeColors';
+import { TYPE_BADGE_BACKGROUND_COLORS } from '../constants/typeCardBackgroundColors';
 import { TYPE_DETAIL_BACKGROUNDS } from '../constants/typeDetailBackgrounds';
 import type { PokemonTypeName } from '../constants/types';
 import { capitalize, formatHeightM, formatPokedexNumber, formatWeightKg } from '../utils/formatters';
 import { computeGenderRatio, getFlavorText, getGenus } from '../utils/speciesInfo';
-import arrowBackIcon from '../assets/icons/arrow-back.png';
-import favoriteActiveIcon from '../assets/icons/favorite-toggle-active.png';
-import favoriteInactiveIcon from '../assets/icons/favorite-toggle-inactive.png';
+import arrowPokeIcon from '../assets/poke-page/arrow-poke.svg';
 
 const STAT_MAX = 255;
 
@@ -36,7 +35,7 @@ export function DetailPage() {
     pokemon.sprites.front_default ??
     '';
   const primaryType = pokemon.types[0]?.type.name as PokemonTypeName | undefined;
-  const backgroundColor = (primaryType && TYPE_COLORS[primaryType]) || '#A8A878';
+  const backgroundColor = (primaryType && TYPE_BADGE_BACKGROUND_COLORS[primaryType]) || '#A8A878';
   const headerBackground = primaryType && TYPE_DETAIL_BACKGROUNDS[primaryType];
   const genus = species ? getGenus(species) : null;
   const flavorText = species ? getFlavorText(species) : null;
@@ -47,7 +46,12 @@ export function DetailPage() {
     <main className="mx-auto max-w-md pb-24 md:max-w-3xl">
       <div className="relative overflow-hidden px-4 pb-8 pt-6" style={{ backgroundColor }}>
         {headerBackground && (
-          <img src={headerBackground} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+          <img
+            src={headerBackground}
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute -right-8 -top-6 h-72 w-72 opacity-90"
+          />
         )}
 
         <div className="relative flex items-center justify-between">
@@ -57,7 +61,7 @@ export function DetailPage() {
             aria-label="Voltar"
             className="flex h-8 w-8 items-center justify-center"
           >
-            <img src={arrowBackIcon} alt="" className="h-5 w-5 brightness-0 invert" />
+            <img src={arrowPokeIcon} alt="" className="h-5 w-5" />
           </button>
           <button
             type="button"
@@ -65,11 +69,7 @@ export function DetailPage() {
             aria-label={isFavorite ? 'Desfavoritar' : 'Favoritar'}
             className="flex h-8 w-8 items-center justify-center"
           >
-            <img
-              src={isFavorite ? favoriteActiveIcon : favoriteInactiveIcon}
-              alt=""
-              className="h-7 w-7 object-contain"
-            />
+            <FavoriteHeartIcon active={isFavorite} className="h-6 w-6" />
           </button>
         </div>
 
@@ -88,13 +88,7 @@ export function DetailPage() {
 
         <div className="mt-3 flex gap-2">
           {pokemon.types.map((entry) => (
-            <span
-              key={entry.type.name}
-              className="rounded-full px-3 py-1 text-xs font-medium text-white"
-              style={{ backgroundColor: TYPE_COLORS[entry.type.name as PokemonTypeName] }}
-            >
-              {TYPE_LABELS_PT[entry.type.name as PokemonTypeName] ?? capitalize(entry.type.name)}
-            </span>
+            <TypeBadge key={entry.type.name} type={entry.type.name as PokemonTypeName} />
           ))}
         </div>
 
@@ -151,13 +145,7 @@ export function DetailPage() {
             <h2 className="mb-3 text-lg font-semibold">Fraquezas</h2>
             <div className="grid grid-cols-2 gap-2">
               {weaknesses.map((type) => (
-                <span
-                  key={type}
-                  className="rounded-full px-3 py-1 text-center text-xs font-medium text-white"
-                  style={{ backgroundColor: TYPE_COLORS[type] }}
-                >
-                  {TYPE_LABELS_PT[type]}
-                </span>
+                <TypeBadge key={type} type={type} />
               ))}
             </div>
           </section>
