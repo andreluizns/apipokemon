@@ -11,6 +11,10 @@ import type { PokemonTypeName } from '../constants/types';
 import { capitalize, formatHeightM, formatPokedexNumber, formatWeightKg } from '../utils/formatters';
 import { computeGenderRatio, getFlavorText, getGenus } from '../utils/speciesInfo';
 import arrowPokeIcon from '../assets/poke-page/arrow-poke.svg';
+import pesoIcon from '../assets/poke-page/peso.svg';
+import alturaIcon from '../assets/poke-page/altura.svg';
+import categoriaIcon from '../assets/poke-page/categoria.svg';
+import habilidadeIcon from '../assets/poke-page/habilidade.svg';
 
 export function DetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -97,22 +101,34 @@ export function DetailPage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-xl border border-neutral-200 p-3">
-            <p className="text-xs font-medium uppercase text-neutral-400">Peso</p>
+            <p className="flex items-center gap-1 text-xs font-medium uppercase text-neutral-400">
+              <img src={pesoIcon} alt="" aria-hidden className="h-4 w-4" />
+              Peso
+            </p>
             <p className="mt-1 font-semibold">{formatWeightKg(pokemon.weight)}</p>
           </div>
           <div className="rounded-xl border border-neutral-200 p-3">
-            <p className="text-xs font-medium uppercase text-neutral-400">Altura</p>
+            <p className="flex items-center gap-1 text-xs font-medium uppercase text-neutral-400">
+              <img src={alturaIcon} alt="" aria-hidden className="h-4 w-4" />
+              Altura
+            </p>
             <p className="mt-1 font-semibold">{formatHeightM(pokemon.height)}</p>
           </div>
           {genus && (
             <div className="rounded-xl border border-neutral-200 p-3">
-              <p className="text-xs font-medium uppercase text-neutral-400">Categoria</p>
+              <p className="flex items-center gap-1 text-xs font-medium uppercase text-neutral-400">
+                <img src={categoriaIcon} alt="" aria-hidden className="h-4 w-4" />
+                Categoria
+              </p>
               <p className="mt-1 font-semibold">{genus}</p>
             </div>
           )}
           {ability && (
             <div className="rounded-xl border border-neutral-200 p-3">
-              <p className="text-xs font-medium uppercase text-neutral-400">Habilidade</p>
+              <p className="flex items-center gap-1 text-xs font-medium uppercase text-neutral-400">
+                <img src={habilidadeIcon} alt="" aria-hidden className="h-4 w-4" />
+                Habilidade
+              </p>
               <p className="mt-1 font-semibold">{capitalize(ability)}</p>
             </div>
           )}
