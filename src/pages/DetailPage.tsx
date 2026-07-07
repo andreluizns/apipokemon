@@ -7,7 +7,6 @@ import { EvolutionChainView } from '../components/EvolutionChainView/EvolutionCh
 import { TypeBadge } from '../components/TypeBadge/TypeBadge';
 import { FavoriteHeartIcon } from '../components/icons/FavoriteHeartIcon';
 import { useFavoritesStore } from '../store/favoritesStore';
-import { TYPE_BADGE_BACKGROUND_COLORS } from '../constants/typeCardBackgroundColors';
 import { TYPE_DETAIL_BASE_BACKGROUNDS, TYPE_DETAIL_BACKGROUNDS } from '../constants/typeDetailBackgrounds';
 import type { PokemonTypeName } from '../constants/types';
 import { capitalize, formatHeightM, formatPokedexNumber, formatWeightKg } from '../utils/formatters';
@@ -35,7 +34,6 @@ export function DetailPage() {
     pokemon.sprites.front_default ??
     '';
   const primaryType = pokemon.types[0]?.type.name as PokemonTypeName | undefined;
-  const backgroundColor = (primaryType && TYPE_BADGE_BACKGROUND_COLORS[primaryType]) || '#A8A878';
   const headerBaseBackground = primaryType && TYPE_DETAIL_BASE_BACKGROUNDS[primaryType];
   const headerWatermark = primaryType && TYPE_DETAIL_BACKGROUNDS[primaryType];
   const genus = species ? getGenus(species) : null;
@@ -45,7 +43,7 @@ export function DetailPage() {
 
   return (
     <main className="mx-auto max-w-md pb-24 md:max-w-3xl">
-      <div className="relative overflow-hidden px-4 pb-8 pt-6" style={{ backgroundColor }}>
+      <div className="relative overflow-hidden px-4 pb-25 pt-6">
         {headerBaseBackground && (
           <img src={headerBaseBackground} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
         )}
@@ -54,7 +52,7 @@ export function DetailPage() {
             src={headerWatermark}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute -right-8 -top-6 h-72 w-72 opacity-90"
+            className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 opacity-90"
           />
         )}
 
