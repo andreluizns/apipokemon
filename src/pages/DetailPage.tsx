@@ -8,7 +8,7 @@ import { TypeBadge } from '../components/TypeBadge/TypeBadge';
 import { FavoriteHeartIcon } from '../components/icons/FavoriteHeartIcon';
 import { useFavoritesStore } from '../store/favoritesStore';
 import { TYPE_BADGE_BACKGROUND_COLORS } from '../constants/typeCardBackgroundColors';
-import { TYPE_DETAIL_BACKGROUNDS } from '../constants/typeDetailBackgrounds';
+import { TYPE_DETAIL_BASE_BACKGROUNDS, TYPE_DETAIL_BACKGROUNDS } from '../constants/typeDetailBackgrounds';
 import type { PokemonTypeName } from '../constants/types';
 import { capitalize, formatHeightM, formatPokedexNumber, formatWeightKg } from '../utils/formatters';
 import { computeGenderRatio, getFlavorText, getGenus } from '../utils/speciesInfo';
@@ -36,7 +36,8 @@ export function DetailPage() {
     '';
   const primaryType = pokemon.types[0]?.type.name as PokemonTypeName | undefined;
   const backgroundColor = (primaryType && TYPE_BADGE_BACKGROUND_COLORS[primaryType]) || '#A8A878';
-  const headerBackground = primaryType && TYPE_DETAIL_BACKGROUNDS[primaryType];
+  const headerBaseBackground = primaryType && TYPE_DETAIL_BASE_BACKGROUNDS[primaryType];
+  const headerWatermark = primaryType && TYPE_DETAIL_BACKGROUNDS[primaryType];
   const genus = species ? getGenus(species) : null;
   const flavorText = species ? getFlavorText(species) : null;
   const genderRatio = species ? computeGenderRatio(species.gender_rate) : null;
@@ -45,9 +46,12 @@ export function DetailPage() {
   return (
     <main className="mx-auto max-w-md pb-24 md:max-w-3xl">
       <div className="relative overflow-hidden px-4 pb-8 pt-6" style={{ backgroundColor }}>
-        {headerBackground && (
+        {headerBaseBackground && (
+          <img src={headerBaseBackground} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+        )}
+        {headerWatermark && (
           <img
-            src={headerBackground}
+            src={headerWatermark}
             alt=""
             aria-hidden
             className="pointer-events-none absolute -right-8 -top-6 h-72 w-72 opacity-90"
