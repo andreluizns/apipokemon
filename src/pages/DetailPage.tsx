@@ -7,6 +7,7 @@ import { EvolutionChainView } from '../components/EvolutionChainView/EvolutionCh
 import { useFavoritesStore } from '../store/favoritesStore';
 import { TYPE_LABELS_PT } from '../constants/typeLabels';
 import { TYPE_COLORS } from '../constants/typeColors';
+import { TYPE_DETAIL_BACKGROUNDS } from '../constants/typeDetailBackgrounds';
 import type { PokemonTypeName } from '../constants/types';
 import { capitalize, formatHeightM, formatPokedexNumber, formatWeightKg } from '../utils/formatters';
 import { computeGenderRatio, getFlavorText, getGenus } from '../utils/speciesInfo';
@@ -36,6 +37,7 @@ export function DetailPage() {
     '';
   const primaryType = pokemon.types[0]?.type.name as PokemonTypeName | undefined;
   const backgroundColor = (primaryType && TYPE_COLORS[primaryType]) || '#A8A878';
+  const headerBackground = primaryType && TYPE_DETAIL_BACKGROUNDS[primaryType];
   const genus = species ? getGenus(species) : null;
   const flavorText = species ? getFlavorText(species) : null;
   const genderRatio = species ? computeGenderRatio(species.gender_rate) : null;
@@ -44,8 +46,9 @@ export function DetailPage() {
   return (
     <main className="mx-auto max-w-md pb-24 md:max-w-3xl">
       <div className="relative overflow-hidden px-4 pb-8 pt-6" style={{ backgroundColor }}>
-        <div aria-hidden className="absolute -right-12 -top-12 h-56 w-56 rounded-full bg-white/15 blur-2xl" />
-        <div aria-hidden className="absolute -bottom-16 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
+        {headerBackground && (
+          <img src={headerBackground} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+        )}
 
         <div className="relative flex items-center justify-between">
           <button
