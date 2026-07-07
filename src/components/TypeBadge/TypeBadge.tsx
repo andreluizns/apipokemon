@@ -6,14 +6,20 @@ import { capitalize } from '../../utils/formatters';
 
 interface TypeBadgeProps {
   type: PokemonTypeName;
+  size?: 'sm' | 'lg';
 }
 
-export function TypeBadge({ type }: TypeBadgeProps) {
+const SIZE_CLASSES: Record<'sm' | 'lg', string> = {
+  sm: 'px-3 py-1 text-xs font-medium',
+  lg: 'px-3.5 py-1 text-sm font-medium',
+};
+
+export function TypeBadge({ type, size = 'sm' }: TypeBadgeProps) {
   const icon = TYPE_ICONS[type];
 
   return (
     <span
-      className="flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium text-white"
+      className={`flex items-center gap-1 rounded-full text-white ${SIZE_CLASSES[size]}`}
       style={{ backgroundColor: TYPE_BADGE_BACKGROUND_COLORS[type] }}
     >
       {icon && (

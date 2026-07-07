@@ -16,4 +16,16 @@ describe('TypeBadge', () => {
     expect(screen.getByText('Gelo')).toBeInTheDocument();
     expect(container.querySelector('img')).not.toBeInTheDocument();
   });
+
+  it('uses larger padding and font size with size="lg"', () => {
+    render(<TypeBadge type="grass" size="lg" />);
+
+    expect(screen.getByText('Grama').closest('span')).toHaveClass('px-3.5', 'py-1', 'text-sm');
+  });
+
+  it('defaults to the compact size', () => {
+    render(<TypeBadge type="grass" />);
+
+    expect(screen.getByText('Grama').closest('span')).toHaveClass('px-3', 'py-1', 'text-xs');
+  });
 });

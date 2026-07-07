@@ -14,7 +14,7 @@ function toResources(names: string[]) {
 describe('DetailPage', () => {
   beforeEach(() => vi.restoreAllMocks());
 
-  it('renders the pokemon name, types, stats, species info and weaknesses for the routed id', async () => {
+  it('renders the pokemon name, types, species info and weaknesses for the routed id', async () => {
     vi.spyOn(pokemonApi, 'fetchPokemonByNameOrId').mockResolvedValue({
       id: 1,
       name: 'bulbasaur',
@@ -82,7 +82,6 @@ describe('DetailPage', () => {
 
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Bulbasaur' })).toBeInTheDocument());
     expect(screen.getByText('N°001')).toBeInTheDocument();
-    expect(screen.getByText('hp')).toBeInTheDocument();
     expect(screen.getByText('6,9 kg')).toBeInTheDocument();
     expect(screen.getByText('0,7 m')).toBeInTheDocument();
     expect(screen.getByText('Seed')).toBeInTheDocument();
@@ -95,5 +94,7 @@ describe('DetailPage', () => {
     expect(screen.getByText('Fogo')).toBeInTheDocument();
     expect(screen.getByText('Gelo')).toBeInTheDocument();
     expect(screen.getByText('Voador')).toBeInTheDocument();
+
+    expect(screen.queryByText('Estatísticas')).not.toBeInTheDocument();
   });
 });

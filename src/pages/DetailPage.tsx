@@ -2,7 +2,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { usePokemonDetails } from '../hooks/usePokemonDetails';
 import { useEvolutionChain } from '../hooks/useEvolutionChain';
 import { useWeaknesses } from '../hooks/useWeaknesses';
-import { StatBar } from '../components/StatBar/StatBar';
 import { EvolutionChainView } from '../components/EvolutionChainView/EvolutionChainView';
 import { TypeBadge } from '../components/TypeBadge/TypeBadge';
 import { FavoriteHeartIcon } from '../components/icons/FavoriteHeartIcon';
@@ -12,8 +11,6 @@ import type { PokemonTypeName } from '../constants/types';
 import { capitalize, formatHeightM, formatPokedexNumber, formatWeightKg } from '../utils/formatters';
 import { computeGenderRatio, getFlavorText, getGenus } from '../utils/speciesInfo';
 import arrowPokeIcon from '../assets/poke-page/arrow-poke.svg';
-
-const STAT_MAX = 255;
 
 export function DetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -135,19 +132,12 @@ export function DetailPage() {
           </section>
         )}
 
-        <section className="mt-6">
-          <h2 className="mb-3 text-lg font-semibold">Estatísticas</h2>
-          {pokemon.stats.map((stat) => (
-            <StatBar key={stat.stat.name} label={stat.stat.name} value={stat.base_stat} max={STAT_MAX} />
-          ))}
-        </section>
-
         {weaknesses.length > 0 && (
           <section className="mt-6">
             <h2 className="mb-3 text-lg font-semibold">Fraquezas</h2>
             <div className="grid grid-cols-2 gap-2">
               {weaknesses.map((type) => (
-                <TypeBadge key={type} type={type} />
+                <TypeBadge key={type} type={type} size="lg" />
               ))}
             </div>
           </section>
