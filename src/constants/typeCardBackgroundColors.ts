@@ -1,8 +1,7 @@
 import type { PokemonTypeName } from './types';
 
 // Pastel background colors for PokemonCard, distinct from the more saturated
-// TYPE_COLORS used for badges/pills elsewhere. Partial: falls back to
-// TYPE_COLORS for any type not yet specified here (currently only "ground").
+// TYPE_COLORS used for badges/pills elsewhere.
 export const TYPE_CARD_BACKGROUND_COLORS: Partial<Record<PokemonTypeName, string>> = {
   normal: '#F1F2F3',
   fire: '#FCF3EB',
@@ -12,6 +11,7 @@ export const TYPE_CARD_BACKGROUND_COLORS: Partial<Record<PokemonTypeName, string
   ice: '#F1FBF9',
   fighting: '#F8E9EE',
   poison: '#F5EDF8',
+  ground: '#F9EFEA',
   flying: '#F1F4FA',
   psychic: '#FCEEEF',
   bug: '#F1F6E8',
