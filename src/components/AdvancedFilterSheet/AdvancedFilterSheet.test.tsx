@@ -18,8 +18,8 @@ describe('AdvancedFilterSheet', () => {
     const onApply = vi.fn();
     render(<AdvancedFilterSheet isOpen value={emptyRange} onApply={onApply} onClose={vi.fn()} />);
 
-    await userEvent.type(screen.getByLabelText('Altura mínima (dm)'), '5');
-    await userEvent.type(screen.getByLabelText('Altura máxima (dm)'), '20');
+    await userEvent.type(screen.getByLabelText('Altura mínima (m)'), '0.5');
+    await userEvent.type(screen.getByLabelText('Altura máxima (m)'), '2');
     await userEvent.selectOptions(screen.getByLabelText('Geração'), 'generation-i');
     await userEvent.click(screen.getByRole('button', { name: /aplicar/i }));
 
@@ -30,6 +30,30 @@ describe('AdvancedFilterSheet', () => {
       maxWeight: null,
       generation: 'generation-i',
     });
+  });
+
+  it('converts weight input in kg to hectograms for onApply', async () => {
+    const onApply = vi.fn();
+    render(<AdvancedFilterSheet isOpen value={emptyRange} onApply={onApply} onClose={vi.fn()} />);
+
+    await userEvent.type(screen.getByLabelText('Peso mínimo (kg)'), '6.9');
+    await userEvent.click(screen.getByRole('button', { name: /aplicar/i }));
+
+    expect(onApply).toHaveBeenCalledWith(expect.objectContaining({ minWeight: 69 }));
+  });
+
+  it('displays stored dm/hg values converted to m/kg', () => {
+    render(
+      <AdvancedFilterSheet
+        isOpen
+        value={{ minHeight: 7, maxHeight: null, minWeight: 69, maxWeight: null, generation: null }}
+        onApply={vi.fn()}
+        onClose={vi.fn()}
+      />
+    );
+
+    expect(screen.getByLabelText('Altura mínima (m)')).toHaveValue(0.7);
+    expect(screen.getByLabelText('Peso mínimo (kg)')).toHaveValue(6.9);
   });
 
   it('closes without applying when the backdrop is clicked', async () => {
@@ -80,12 +104,12 @@ describe('AdvancedFilterSheet', () => {
     }
     render(<Wrapper />);
 
-    await userEvent.type(screen.getByLabelText('Altura mínima (dm)'), '5');
+    await userEvent.type(screen.getByLabelText('Altura mínima (m)'), '0.5');
     await userEvent.click(screen.getByRole('dialog').parentElement!);
 
     await userEvent.click(screen.getByRole('button', { name: 'reabrir' }));
 
-    expect(screen.getByLabelText('Altura mínima (dm)')).toHaveValue(null);
+    expect(screen.getByLabelText('Altura mínima (m)')).toHaveValue(null);
 
     await userEvent.click(screen.getByRole('button', { name: /aplicar/i }));
 

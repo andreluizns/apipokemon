@@ -22,6 +22,20 @@ function toNullableNumber(text: string): number | null {
   return Number.isNaN(parsed) ? null : parsed;
 }
 
+// pokemon.height/weight from the PokeAPI are in decimeters/hectograms, but
+// the form is presented to the user in meters/kg, a factor of 10 apart in
+// both cases.
+const UNIT_FACTOR = 10;
+
+function toDisplayUnit(value: number | null): number | string {
+  return value === null ? '' : value / UNIT_FACTOR;
+}
+
+function fromDisplayUnit(text: string): number | null {
+  const parsed = toNullableNumber(text);
+  return parsed === null ? null : parsed * UNIT_FACTOR;
+}
+
 export function AdvancedFilterSheet({ isOpen, value, onApply, onClose }: AdvancedFilterSheetProps) {
   const [draft, setDraft] = useState(value);
 
@@ -51,40 +65,40 @@ export function AdvancedFilterSheet({ isOpen, value, onApply, onClose }: Advance
       >
         <h2 id="advanced-filter-sheet-title" className="mb-4 text-center text-lg font-semibold">Filtros avançados</h2>
 
-        <label className="mb-1 block text-sm font-medium" htmlFor="min-height">Altura mínima (dm)</label>
+        <label className="mb-1 block text-sm font-medium" htmlFor="min-height">Altura mínima (m)</label>
         <input
           id="min-height"
           type="number"
           className="mb-3 w-full rounded-lg border border-neutral-300 p-2"
-          value={draft.minHeight ?? ''}
-          onChange={(event) => setDraft((prev) => ({ ...prev, minHeight: toNullableNumber(event.target.value) }))}
+          value={toDisplayUnit(draft.minHeight)}
+          onChange={(event) => setDraft((prev) => ({ ...prev, minHeight: fromDisplayUnit(event.target.value) }))}
         />
 
-        <label className="mb-1 block text-sm font-medium" htmlFor="max-height">Altura máxima (dm)</label>
+        <label className="mb-1 block text-sm font-medium" htmlFor="max-height">Altura máxima (m)</label>
         <input
           id="max-height"
           type="number"
           className="mb-3 w-full rounded-lg border border-neutral-300 p-2"
-          value={draft.maxHeight ?? ''}
-          onChange={(event) => setDraft((prev) => ({ ...prev, maxHeight: toNullableNumber(event.target.value) }))}
+          value={toDisplayUnit(draft.maxHeight)}
+          onChange={(event) => setDraft((prev) => ({ ...prev, maxHeight: fromDisplayUnit(event.target.value) }))}
         />
 
-        <label className="mb-1 block text-sm font-medium" htmlFor="min-weight">Peso mínimo (hg)</label>
+        <label className="mb-1 block text-sm font-medium" htmlFor="min-weight">Peso mínimo (kg)</label>
         <input
           id="min-weight"
           type="number"
           className="mb-3 w-full rounded-lg border border-neutral-300 p-2"
-          value={draft.minWeight ?? ''}
-          onChange={(event) => setDraft((prev) => ({ ...prev, minWeight: toNullableNumber(event.target.value) }))}
+          value={toDisplayUnit(draft.minWeight)}
+          onChange={(event) => setDraft((prev) => ({ ...prev, minWeight: fromDisplayUnit(event.target.value) }))}
         />
 
-        <label className="mb-1 block text-sm font-medium" htmlFor="max-weight">Peso máximo (hg)</label>
+        <label className="mb-1 block text-sm font-medium" htmlFor="max-weight">Peso máximo (kg)</label>
         <input
           id="max-weight"
           type="number"
           className="mb-3 w-full rounded-lg border border-neutral-300 p-2"
-          value={draft.maxWeight ?? ''}
-          onChange={(event) => setDraft((prev) => ({ ...prev, maxWeight: toNullableNumber(event.target.value) }))}
+          value={toDisplayUnit(draft.maxWeight)}
+          onChange={(event) => setDraft((prev) => ({ ...prev, maxWeight: fromDisplayUnit(event.target.value) }))}
         />
 
         <label className="mb-1 block text-sm font-medium" htmlFor="generation">Geração</label>
