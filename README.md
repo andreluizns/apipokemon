@@ -6,6 +6,15 @@ SPA em React + TypeScript que consome a [PokeAPI](https://pokeapi.co/) pública 
 
 Pré-requisitos: Node.js 18+.
 
+Clonar o repositório:
+
+```bash
+git clone https://github.com/andreluizns/apipokemon.git
+cd apipokemon
+```
+
+Instalar as dependências e subir o servidor de desenvolvimento:
+
 ```bash
 npm install
 npm run dev
@@ -39,15 +48,16 @@ npm run preview
 
 ## Stack
 
-- React 19 + TypeScript (strict, sem `any`)
+- React 19 + TypeScript (`strict: true`, sem `any`)
 - Vite
 - Tailwind CSS v4 + Poppins (`@fontsource/poppins`)
-- React Router (`/`, `/pokemon/:id`, `/favoritos`, `/comparar`)
+- React Router (`/`, `/pokemon/:id`, `/favoritos`, `/comparar`, `/regioes`, `/conta`)
 - Zustand com middleware `persist` (favoritos em `localStorage`)
-- Vitest + Testing Library (TDD em toda a lógica de hooks/utils e nos componentes — 96 testes)
+- Vitest + Testing Library (TDD em toda a lógica de hooks/utils e nos componentes)
 
 ## Decisões técnicas
 
+- **Tipagem**: `strict: true` habilitado em `tsconfig.app.json`/`tsconfig.node.json`, sem nenhum `any` no projeto (fonte ou testes). Generics são usados onde o tipo de retorno depende do chamador — `apiGet<T>` (`src/api/client.ts`) tipa a resposta de cada endpoint da PokeAPI sem duplicar a função por recurso, e `useDebouncedValue<T>` (`src/hooks/useDebouncedValue.ts`) funciona para qualquer tipo de valor debounced. Tipos utilitários (`Record<PokemonTypeName, string>`, `Partial<Record<...>>`) mapeiam os 18 tipos de Pokémon para cores/ícones/labels sem repetir a união de tipos em cada constante, e o `Partial` sinaliza explicitamente quais mapas ainda têm exceções conhecidas (ex.: `TYPE_ICONS` não tem asset para o tipo gelo ainda).
 - **Sem backend próprio**: a PokeAPI é pública, sem autenticação e com CORS liberado, então todo o fetch acontece direto do client.
 - **Busca por nome**: a PokeAPI não tem endpoint de busca textual. A lista completa de nomes (`/pokemon?limit=100000`) é buscada uma vez por sessão de filtro e filtrada no cliente por substring (`resolvePokemonCandidates`).
 - **Filtro por tipo**: usa `/type/{nome}`, que já retorna todos os Pokémons daquele tipo.
