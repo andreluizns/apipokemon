@@ -1,4 +1,5 @@
 import type { PokemonTypeName } from './types';
+import normalWatermark from '../assets/background/normal-card.svg';
 import fireWatermark from '../assets/background/fire-card.svg';
 import waterWatermark from '../assets/background/water-card.svg';
 import electricWatermark from '../assets/background/eletric-card.svg';
@@ -61,9 +62,9 @@ export const TYPE_DETAIL_BASE_BACKGROUNDS: Record<PokemonTypeName, string> = {
 
 // Decorative watermark (leaf/flame/wave/etc, matching the type's own motif)
 // layered on top of the base background, shown behind the DetailPage header
-// sprite and the EvolutionStageCard avatar circle. Partial: "normal" has no
-// asset yet, renders with the base background only, no watermark.
-export const TYPE_DETAIL_BACKGROUNDS: Partial<Record<PokemonTypeName, string>> = {
+// sprite and the EvolutionStageCard avatar circle. Covers all 18 types.
+export const TYPE_DETAIL_BACKGROUNDS: Record<PokemonTypeName, string> = {
+  normal: normalWatermark,
   fire: fireWatermark,
   water: waterWatermark,
   electric: electricWatermark,
