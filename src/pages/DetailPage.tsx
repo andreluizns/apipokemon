@@ -62,7 +62,7 @@ export function DetailPage() {
             type="button"
             onClick={() => navigate(-1)}
             aria-label="Voltar"
-            className="flex h-8 w-8 items-center justify-center"
+            className="flex h-11 w-11 items-center justify-center"
           >
             <img src={arrowPokeIcon} alt="" className="h-6 w-6" />
           </button>
