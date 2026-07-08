@@ -53,7 +53,7 @@ export function DetailPage() {
             src={headerWatermark}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 opacity-90"
+            className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-54 -translate-x-1/2 -translate-y-1/2 opacity-90 md:w-72"
           />
         )}
 
