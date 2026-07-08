@@ -86,7 +86,7 @@ export function DetailPage() {
       </div>
 
       <div className="px-4">
-        <h1 className="mt-4 text-2xl font-bold">{capitalize(pokemon.name)}</h1>
+        <h1 className="mt-4 text-[32px] font-medium">{capitalize(pokemon.name)}</h1>
         <p className="text-sm text-neutral-400">{formatPokedexNumber(pokemon.id)}</p>
 
         <div className="mt-3 flex gap-2">
@@ -95,48 +95,48 @@ export function DetailPage() {
           ))}
         </div>
 
-        {flavorText && <p className="mt-4 text-sm text-neutral-500">{flavorText}</p>}
+        {flavorText && <p className="mt-4 text-[14px] text-[#000000]/70">{flavorText}</p>}
 
         <hr className="my-4 border-neutral-200" />
 
         <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-xl border border-neutral-200 p-3">
+          <div className="p-3">
             <p className="flex items-center gap-1 text-xs font-medium uppercase text-neutral-400">
               <img src={pesoIcon} alt="" aria-hidden className="h-4 w-4" />
               Peso
             </p>
-            <p className="mt-1 font-semibold">{formatWeightKg(pokemon.weight)}</p>
+            <p className="mt-1 rounded-[15px] border border-neutral-200 px-3 py-2 font-semibold">{formatWeightKg(pokemon.weight)}</p>
           </div>
-          <div className="rounded-xl border border-neutral-200 p-3">
+          <div className="p-3">
             <p className="flex items-center gap-1 text-xs font-medium uppercase text-neutral-400">
               <img src={alturaIcon} alt="" aria-hidden className="h-4 w-4" />
               Altura
             </p>
-            <p className="mt-1 font-semibold">{formatHeightM(pokemon.height)}</p>
+            <p className="mt-1 rounded-[15px] border border-neutral-200 px-3 py-2 font-semibold">{formatHeightM(pokemon.height)}</p>
           </div>
           {genus && (
-            <div className="rounded-xl border border-neutral-200 p-3">
+            <div className="p-3">
               <p className="flex items-center gap-1 text-xs font-medium uppercase text-neutral-400">
                 <img src={categoriaIcon} alt="" aria-hidden className="h-4 w-4" />
                 Categoria
               </p>
-              <p className="mt-1 font-semibold">{genus}</p>
+              <p className="mt-1 rounded-[15px] border border-neutral-200 px-3 py-2 font-semibold">{genus}</p>
             </div>
           )}
           {ability && (
-            <div className="rounded-xl border border-neutral-200 p-3">
+            <div className="p-3">
               <p className="flex items-center gap-1 text-xs font-medium uppercase text-neutral-400">
                 <img src={habilidadeIcon} alt="" aria-hidden className="h-4 w-4" />
                 Habilidade
               </p>
-              <p className="mt-1 font-semibold">{capitalize(ability)}</p>
+              <p className="mt-1 rounded-[15px] border border-neutral-200 px-3 py-2 font-semibold">{capitalize(ability)}</p>
             </div>
           )}
         </div>
 
         {genderRatio && (
           <section className="mt-6">
-            <h2 className="mb-2 text-xs font-medium uppercase text-neutral-400">Gênero</h2>
+            <h2 className="mb-2 text-center text-xs font-medium uppercase text-neutral-400">Gênero</h2>
             <div className="flex h-2 overflow-hidden rounded-full bg-neutral-200">
               <div className="h-full bg-blue-500" style={{ width: `${genderRatio.malePercent}%` }} />
               <div className="h-full bg-pink-400" style={{ width: `${genderRatio.femalePercent}%` }} />
