@@ -43,7 +43,7 @@ export function EvolutionStageCard({ speciesId, speciesName }: EvolutionStageCar
         {watermark && <img src={watermark} alt="" aria-hidden className="absolute inset-0 h-16.25 w-16.25 object-cover" />}
         {sprite && <img src={sprite} alt={speciesName} className="relative h-10 w-10 object-contain" />}
       </div>
-      <div className="py-3 pr-3">
+      <div className="w-full py-3 pr-3 md:w-auto">
         <p className="text-[16px] font-medium text-[#1A1A1A]">{capitalize(speciesName)}</p>
         <p className="text-[14px] text-[#4D4D4D]">{formatPokedexNumber(speciesId)}</p>
         {pokemon && (
