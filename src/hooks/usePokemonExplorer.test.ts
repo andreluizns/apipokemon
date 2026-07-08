@@ -5,8 +5,6 @@ import * as candidatesApi from '../api/resolvePokemonCandidates';
 import * as pokemonApi from '../api/pokemon';
 import type { Pokemon } from '../types/pokemon';
 
-vi.mock('../utils/filterByGeneration', () => ({ filterByGeneration: vi.fn(async (pokemons) => pokemons) }));
-
 function makePokemon(id: number): Pokemon {
   return {
     id,
@@ -65,7 +63,25 @@ describe('usePokemonExplorer', () => {
     rerender({ filters: { ...DEFAULT_FILTERS, type: 'fire' } });
 
     await waitFor(() => expect(resolveSpy).toHaveBeenCalledTimes(2));
-    expect(resolveSpy).toHaveBeenLastCalledWith({ query: '', type: 'fire' });
+    expect(resolveSpy).toHaveBeenLastCalledWith({ query: '', type: 'fire', generation: null });
+  });
+
+  it('re-resolves candidates when the generation filter changes', async () => {
+    const resolveSpy = vi
+      .spyOn(candidatesApi, 'resolvePokemonCandidates')
+      .mockResolvedValue([{ id: 1, name: 'pokemon-1' }]);
+    vi.spyOn(pokemonApi, 'fetchPokemonByNameOrId').mockImplementation(async (id) => makePokemon(Number(id)));
+
+    const { rerender } = renderHook(({ filters }) => usePokemonExplorer(filters), {
+      initialProps: { filters: DEFAULT_FILTERS },
+    });
+
+    await waitFor(() => expect(resolveSpy).toHaveBeenCalledTimes(1));
+
+    rerender({ filters: { ...DEFAULT_FILTERS, generation: 'generation-ix' } });
+
+    await waitFor(() => expect(resolveSpy).toHaveBeenCalledTimes(2));
+    expect(resolveSpy).toHaveBeenLastCalledWith({ query: '', type: null, generation: 'generation-ix' });
   });
 });
 

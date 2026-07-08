@@ -3,7 +3,6 @@ import { fetchPokemonByNameOrId } from '../api/pokemon';
 import { resolvePokemonCandidates, type PokemonCandidate } from '../api/resolvePokemonCandidates';
 import type { Pokemon } from '../types/pokemon';
 import { filterByHeightAndWeight } from '../utils/filterPokemonDetails';
-import { filterByGeneration } from '../utils/filterByGeneration';
 
 const PAGE_SIZE = 20;
 
@@ -49,7 +48,7 @@ export function usePokemonExplorer(filters: PokemonFilters): UsePokemonExplorerR
     setIsLoading(true);
     setError(null);
 
-    resolvePokemonCandidates({ query: filters.query, type: filters.type })
+    resolvePokemonCandidates({ query: filters.query, type: filters.type, generation: filters.generation })
       .then((result) => {
         if (!isCancelled) setCandidates(result);
       })
@@ -63,7 +62,7 @@ export function usePokemonExplorer(filters: PokemonFilters): UsePokemonExplorerR
     return () => {
       isCancelled = true;
     };
-  }, [filters.query, filters.type]);
+  }, [filters.query, filters.type, filters.generation]);
 
   useEffect(() => {
     if (!candidates) return;
@@ -75,7 +74,6 @@ export function usePokemonExplorer(filters: PokemonFilters): UsePokemonExplorerR
 
     Promise.all(idsToLoad.map((id) => fetchPokemonByNameOrId(id)))
       .then((details) => filterByHeightAndWeight(details, filters))
-      .then((details) => filterByGeneration(details, filters.generation))
       .then((details) => {
         if (!isCancelled) setPokemons(details);
       })
@@ -89,7 +87,7 @@ export function usePokemonExplorer(filters: PokemonFilters): UsePokemonExplorerR
     return () => {
       isCancelled = true;
     };
-  }, [candidates, visibleCount, filters.minHeight, filters.maxHeight, filters.minWeight, filters.maxWeight, filters.generation]);
+  }, [candidates, visibleCount, filters.minHeight, filters.maxHeight, filters.minWeight, filters.maxWeight]);
 
   const hasMore = candidates !== null && visibleCount < candidates.length;
 

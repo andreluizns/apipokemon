@@ -58,12 +58,12 @@ describe('HomePage', () => {
     );
 
     await waitFor(() => expect(screen.getByText('Bulbasaur')).toBeInTheDocument());
-    expect(resolveSpy).toHaveBeenLastCalledWith({ query: '', type: null });
+    expect(resolveSpy).toHaveBeenLastCalledWith({ query: '', type: null, generation: null });
 
     await userEvent.type(screen.getByPlaceholderText('Procurar Pokémon...'), 'char');
 
     await waitFor(
-      () => expect(resolveSpy).toHaveBeenLastCalledWith({ query: 'char', type: null }),
+      () => expect(resolveSpy).toHaveBeenLastCalledWith({ query: 'char', type: null, generation: null }),
       { timeout: 3000 }
     );
   });

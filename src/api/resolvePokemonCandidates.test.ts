@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { resolvePokemonCandidates } from './resolvePokemonCandidates';
 import * as pokemonApi from './pokemon';
 import * as typeApi from './pokemonType';
+import * as generationApi from './generation';
 
 describe('resolvePokemonCandidates', () => {
   beforeEach(() => vi.restoreAllMocks());
@@ -15,7 +16,7 @@ describe('resolvePokemonCandidates', () => {
       ],
     });
 
-    const result = await resolvePokemonCandidates({ query: '', type: null });
+    const result = await resolvePokemonCandidates({ query: '', type: null, generation: null });
 
     expect(result).toEqual([
       { id: 1, name: 'bulbasaur' },
@@ -33,7 +34,7 @@ describe('resolvePokemonCandidates', () => {
       ],
     });
 
-    const result = await resolvePokemonCandidates({ query: 'char', type: null });
+    const result = await resolvePokemonCandidates({ query: 'char', type: null, generation: null });
 
     expect(result).toEqual([{ id: 4, name: 'charmander' }]);
   });
@@ -47,7 +48,7 @@ describe('resolvePokemonCandidates', () => {
       damage_relations: { double_damage_from: [], half_damage_from: [], no_damage_from: [] },
     });
 
-    const result = await resolvePokemonCandidates({ query: '', type: 'fire' });
+    const result = await resolvePokemonCandidates({ query: '', type: 'fire', generation: null });
 
     expect(result).toEqual([
       { id: 4, name: 'charmander' },
@@ -64,8 +65,41 @@ describe('resolvePokemonCandidates', () => {
       damage_relations: { double_damage_from: [], half_damage_from: [], no_damage_from: [] },
     });
 
-    const result = await resolvePokemonCandidates({ query: 'meleon', type: 'fire' });
+    const result = await resolvePokemonCandidates({ query: 'meleon', type: 'fire', generation: null });
 
     expect(result).toEqual([{ id: 5, name: 'charmeleon' }]);
+  });
+
+  it('uses the generation endpoint as the base list when a generation is selected', async () => {
+    vi.spyOn(generationApi, 'fetchGeneration').mockResolvedValue({
+      pokemon_species: [
+        { name: 'sprigatito', url: 'https://pokeapi.co/api/v2/pokemon-species/906/' },
+        { name: 'fuecoco', url: 'https://pokeapi.co/api/v2/pokemon-species/909/' },
+      ],
+    });
+
+    const result = await resolvePokemonCandidates({ query: '', type: null, generation: 'generation-ix' });
+
+    expect(result).toEqual([
+      { id: 906, name: 'sprigatito' },
+      { id: 909, name: 'fuecoco' },
+    ]);
+  });
+
+  it('intersects type and generation filters', async () => {
+    vi.spyOn(typeApi, 'fetchPokemonByType').mockResolvedValue({
+      pokemon: [
+        { slot: 1, pokemon: { name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/4/' } },
+        { slot: 1, pokemon: { name: 'fuecoco', url: 'https://pokeapi.co/api/v2/pokemon/909/' } },
+      ],
+      damage_relations: { double_damage_from: [], half_damage_from: [], no_damage_from: [] },
+    });
+    vi.spyOn(generationApi, 'fetchGeneration').mockResolvedValue({
+      pokemon_species: [{ name: 'fuecoco', url: 'https://pokeapi.co/api/v2/pokemon-species/909/' }],
+    });
+
+    const result = await resolvePokemonCandidates({ query: '', type: 'fire', generation: 'generation-ix' });
+
+    expect(result).toEqual([{ id: 909, name: 'fuecoco' }]);
   });
 });
