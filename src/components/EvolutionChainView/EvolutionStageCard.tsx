@@ -34,7 +34,7 @@ export function EvolutionStageCard({ speciesId, speciesName }: EvolutionStageCar
   return (
     <Link
       to={`/pokemon/${speciesId}`}
-      className="flex items-center gap-3 overflow-hidden rounded-2xl border border-neutral-200"
+      className="flex items-center gap-3 overflow-hidden rounded-[15px] border border-neutral-200"
     >
       <div
         className="relative flex h-18.5 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full"
