@@ -55,6 +55,9 @@ export function HomePage() {
 
       {error && <p className="mt-4 text-red-500">{error}</p>}
       {isLoading && !hasMore && <p className="mt-4 text-center text-sm text-neutral-500">Carregando...</p>}
+      {!isLoading && !error && pokemons.length === 0 && !hasMore && (
+        <p className="mt-4 text-center text-sm text-neutral-500">Nenhum resultado encontrado.</p>
+      )}
 
       <div className="mt-4">
         <PokemonList

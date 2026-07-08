@@ -67,4 +67,17 @@ describe('HomePage', () => {
       { timeout: 3000 }
     );
   });
+
+  it('shows a no-results message and hides Carregar mais when nothing matches', async () => {
+    vi.spyOn(candidatesApi, 'resolvePokemonCandidates').mockResolvedValue([]);
+
+    render(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => expect(screen.getByText('Nenhum resultado encontrado.')).toBeInTheDocument());
+    expect(screen.queryByRole('button', { name: /carregar mais/i })).not.toBeInTheDocument();
+  });
 });
