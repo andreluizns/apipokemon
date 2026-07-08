@@ -32,7 +32,7 @@ describe('EvolutionStageCard', () => {
     expect(screen.getByText('Ivysaur')).toBeInTheDocument();
     expect(screen.getByText('N°002')).toBeInTheDocument();
 
-    await waitFor(() => expect(screen.getByText('Grama')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole('img', { name: 'Grama' })).toBeInTheDocument());
     expect(screen.getByRole('img', { name: 'ivysaur' })).toHaveAttribute('src', 'ivysaur.png');
   });
 

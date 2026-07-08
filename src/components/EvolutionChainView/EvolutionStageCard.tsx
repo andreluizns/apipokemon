@@ -34,22 +34,22 @@ export function EvolutionStageCard({ speciesId, speciesName }: EvolutionStageCar
   return (
     <Link
       to={`/pokemon/${speciesId}`}
-      className="flex items-center gap-3 rounded-2xl border border-neutral-200 p-3"
+      className="flex items-center gap-3 overflow-hidden rounded-2xl border border-neutral-200"
     >
       <div
-        className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full"
+        className="relative flex h-18.5 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full"
         style={{ backgroundColor }}
       >
-        {watermark && <img src={watermark} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />}
+        {watermark && <img src={watermark} alt="" aria-hidden className="absolute inset-0 h-16.25 w-16.25 object-cover" />}
         {sprite && <img src={sprite} alt={speciesName} className="relative h-10 w-10 object-contain" />}
       </div>
-      <div>
-        <p className="font-semibold">{capitalize(speciesName)}</p>
-        <p className="text-xs text-neutral-500">{formatPokedexNumber(speciesId)}</p>
+      <div className="py-3 pr-3">
+        <p className="text-[16px] font-medium text-[#1A1A1A]">{capitalize(speciesName)}</p>
+        <p className="text-[14px] text-[#4D4D4D]">{formatPokedexNumber(speciesId)}</p>
         {pokemon && (
           <div className="mt-1 flex gap-1">
             {pokemon.types.map((entry) => (
-              <TypeBadge key={entry.type.name} type={entry.type.name as PokemonTypeName} />
+              <TypeBadge key={entry.type.name} type={entry.type.name as PokemonTypeName} iconOnly />
             ))}
           </div>
         )}

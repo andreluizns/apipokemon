@@ -28,4 +28,13 @@ describe('TypeBadge', () => {
 
     expect(screen.getByText('Grama').closest('span')).toHaveClass('px-3', 'py-1', 'text-xs');
   });
+
+  it('renders only a whitened icon with an accessible label when iconOnly', () => {
+    const { container } = render(<TypeBadge type="grass" iconOnly />);
+
+    const badge = screen.getByRole('img', { name: 'Grama' });
+    expect(badge).toBeInTheDocument();
+    expect(screen.queryByText('Grama')).not.toBeInTheDocument();
+    expect(container.querySelector('img')).toHaveClass('brightness-0', 'invert');
+  });
 });
