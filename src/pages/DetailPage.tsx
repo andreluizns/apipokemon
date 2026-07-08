@@ -80,7 +80,7 @@ export function DetailPage() {
           <img
             src={sprite}
             alt={pokemon.name}
-            className="relative mx-auto mt-2 h-40 w-40 object-contain [image-rendering:pixelated]"
+            className="relative mx-auto mt-2 h-200 w-200 object-contain [image-rendering:pixelated]"
           />
         )}
       </div>
