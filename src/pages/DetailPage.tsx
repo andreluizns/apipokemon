@@ -46,7 +46,7 @@ export function DetailPage() {
     <main className="mx-auto max-w-md pb-24 md:max-w-3xl">
       <div className="relative flex flex-col overflow-hidden px-4 pb-25 pt-6">
         {headerBaseBackground && (
-          <img src={headerBaseBackground} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+          <img src={headerBaseBackground} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover md:h-[200%]" />
         )}
         {headerWatermark && (
           <img
