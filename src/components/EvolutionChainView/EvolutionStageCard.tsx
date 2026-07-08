@@ -40,8 +40,15 @@ export function EvolutionStageCard({ speciesId, speciesName }: EvolutionStageCar
         className="relative flex h-18.5 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full"
         style={{ backgroundColor }}
       >
-        {watermark && <img src={watermark} alt="" aria-hidden className="absolute inset-0 h-16.25 w-16.25 object-cover" />}
-        {sprite && <img src={sprite} alt={speciesName} className="relative h-10 w-10 object-contain" />}
+        {watermark && (
+          <img
+            src={watermark}
+            alt=""
+            aria-hidden
+            className="absolute left-1/2 top-1/2 h-16.25 w-16.25 -translate-x-1/2 -translate-y-1/2 object-cover"
+          />
+        )}
+        {sprite && <img src={sprite} alt={speciesName} className="relative h-12 w-12 object-contain" />}
       </div>
       <div className="w-full py-0 pr-3 md:w-auto">
         <p className="text-[16px] font-medium text-[#1A1A1A]">{capitalize(speciesName)}</p>
