@@ -44,7 +44,7 @@ export function DetailPage() {
 
   return (
     <main className="mx-auto max-w-md pb-24 md:max-w-3xl">
-      <div className="relative overflow-hidden px-4 pb-25 pt-6">
+      <div className="relative flex flex-col overflow-hidden px-4 pb-25 pt-6">
         {headerBaseBackground && (
           <img src={headerBaseBackground} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
         )}
@@ -80,7 +80,7 @@ export function DetailPage() {
           <img
             src={sprite}
             alt={pokemon.name}
-            className="relative mx-auto mt-2 h-40 w-40 object-contain [image-rendering:pixelated]"
+            className="relative z-10 mx-auto mt-auto h-56 w-56 object-contain [image-rendering:pixelated]"
           />
         )}
       </div>
