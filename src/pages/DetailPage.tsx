@@ -64,7 +64,7 @@ export function DetailPage() {
             aria-label="Voltar"
             className="flex h-11 w-11 items-center justify-center"
           >
-            <img src={arrowPokeIcon} alt="" className="h-6 w-6" />
+            <img src={arrowPokeIcon} alt="" className="h-11 w-11" />
           </button>
           <button
             type="button"
